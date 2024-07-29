@@ -1,6 +1,12 @@
-include <parameters_pegboard.scad>
-include <parameters_open_front_bin.scad>
 use <pegboard.scad>
+
+open_front_bin_height = 95;
+open_front_bin_width = 127;
+open_front_bin_depth = 33;
+open_front_bin_thickness = 3;
+
+open_front_bin_opening_width = 108;
+open_front_bin_opening_height = 70;
 
 
 module open_front_bin() {

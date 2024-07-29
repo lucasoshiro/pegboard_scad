@@ -1,7 +1,10 @@
-include <parameters_pegboard.scad>
-include <parameters_hammer_holder.scad>
-
 use <pegboard.scad>
+
+hammer_spacing_width = 40;
+hammer_spacing_depth = 40;
+
+hammer_holder_border = 15;
+hammer_holder_height = 50;
 
 hammer_holder_width = hammer_spacing_width + 2 * hammer_holder_border;
 hammer_holder_depth = hammer_spacing_depth + hammer_holder_border;

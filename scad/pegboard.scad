@@ -1,6 +1,25 @@
 include <parameters_pegboard.scad>
 
-$fn = 60;
+/* pin dimentions */
+pin_diameter = 5;
+pin_spacing = 25;
+pin_length = 10;
+pin_tip_height = 2;
+pin_clearance = 1;
+
+/* pegboard width */
+pegboard_width = 3;
+
+/* base width */
+base_width = 3;
+
+/* angle */
+angle = 30;
+
+/* DON'T TOUCH BELOW HERE! Internal values! */
+epsilon = 0.1;
+pin_diameter_ = pin_diameter - pin_clearance;
+
 
 module torus(r1, r2, angle=360) {
     rotate_extrude(angle=angle) translate([r2, 0, 0]) circle(r=r1);

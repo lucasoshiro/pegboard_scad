@@ -1,6 +1,9 @@
-include <parameters_pegboard.scad>
-include <parameters_pliers_holder.scad>
 use <pegboard.scad>
+
+pliers_holder_thickness = 6;
+pliers_holder_length = 60;
+pliers_holder_internal_space = 40;
+pliers_holder_height = 40;
 
 module pliers_support() {
     outer_cube = [

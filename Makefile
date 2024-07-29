@@ -3,7 +3,7 @@ STL_DIR=stl
 SCAD_DIR=scad
 
 .PHONY: all
-all: pliers_holder bin open_bin hammer_holder open_front_bin
+all: pliers_holder bin open_bin hammer_holder open_front_bin soldering_iron_holder
 
 .PRECIOUS: $(STL_DIR)/%.stl
 

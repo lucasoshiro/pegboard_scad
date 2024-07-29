@@ -1,5 +1,3 @@
-include <parameters_pegboard.scad>
-
 /* pin dimentions */
 pin_diameter = 5;
 pin_spacing = 25;
@@ -91,4 +89,4 @@ module base(width, height) {
     }
 }
 
-base(60, 60);
+

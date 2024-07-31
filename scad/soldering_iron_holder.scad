@@ -1,6 +1,6 @@
 include <pegboard.scad>
 
-soldering_iron_diameter = 20;
+soldering_iron_diameter = 24;
 thickness = 5;
 height = 50;
 opening_angle = 90;
@@ -20,14 +20,16 @@ module hook() {
 module soldering_iron() {
     hook_width = soldering_iron_diameter + 2 * thickness;
     intersection() {
-        rotate([0, 45, 0]) {
+        rotate([0, angle, 0]) {
             union() {
                 base(hook_width, height);
                 translate([1, 1, 0] * hook_width / 2) hook();
             }
         }
 
-        cube([base_width + hook_width, hook_width, height] * 2);
+        translate(-[base_width + hook_width, 0, 0] / 2) {
+            cube([base_width + hook_width, hook_width, height] * 2);
+        }
     }
 }
 

@@ -14,7 +14,9 @@ clean:
 $(STL_DIR)/%.stl: ${SCAD_DIR}/pegboard.scad ${SCAD_DIR}/%.scad
 	${OPENSCAD} -q ${SCAD_DIR}/$(notdir $(basename $@)).scad -o $@
 
-.PHONY: %
+.PHONY: % thingiverse
 %: $(STL_DIR)/%.stl
-	true
+	echo -n
 
+thingiverse:
+	ruby rb/prepare_for_thingiverse.rb

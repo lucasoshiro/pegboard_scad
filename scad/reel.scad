@@ -1,11 +1,11 @@
 include <pegboard.scad>
 
 reel_thickness = 5;
-reel_spacing = 30;
-reel_border = 30;
-border_radius = 4;
+reel_spacing = 15;
+reel_border = 10;
+border_radius = 2;
 
-inner_radius = 20;
+inner_radius = 5;
 
 $fn = 60;
 
@@ -39,7 +39,7 @@ module reel_top() {
 module reel() {
     width = (reel_thickness + reel_border + inner_radius) * 2;
     intersection() {
-        rotate([0, 45, 0]) {
+        rotate([0, angle, 0]) {
             base(width, width);
             translate([0, 1, 1] * width / 2)rotate([0, 90, 0]) reel_top();
         }

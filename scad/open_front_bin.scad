@@ -1,4 +1,4 @@
-use <pegboard.scad>
+include <pegboard.scad>
 
 open_front_bin_height = 95;
 open_front_bin_width = 127;
@@ -8,48 +8,50 @@ open_front_bin_thickness = 3;
 open_front_bin_opening_width = 108;
 open_front_bin_opening_height = 70;
 
-
-module open_front_bin() {
-    outer_cube = [
+module open_front_bin(
+    dimensions=[
         open_front_bin_depth,
         open_front_bin_width,
         open_front_bin_height
-        ];
+        ],
 
-    inner_cube = [
-        open_front_bin_depth - open_front_bin_thickness * 2,
-        open_front_bin_width - open_front_bin_thickness * 2 ,
-        open_front_bin_height + 2 * epsilon
-        ];
+    opening_dimensions=[
+        0,
+        open_front_bin_opening_width,
+        open_front_bin_opening_height
+        ],
+
+    thickness=open_front_bin_thickness,
+    ) {
+
+    outer_cube = dimensions;
+
+    inner_cube = dimensions - 2 * [thickness, thickness, -epsilon];
 
     bottom_cube = [
-        open_front_bin_depth / cos(angle) - 2 * open_front_bin_thickness * sin(angle),
-        open_front_bin_width,
-        open_front_bin_thickness
+        dimensions.x / cos(angle) - 2 * thickness * sin(angle),
+        dimensions.y,
+        thickness
         ];
 
     angle_cube = [
-        open_front_bin_depth * 2,
-        open_front_bin_width + 2 * epsilon,
-        open_front_bin_height
+        dimensions.x * 2,
+        dimensions.y + 2 * epsilon,
+        dimensions.z
         ];
 
-    opening_cube = [
-        open_front_bin_thickness + 2 * epsilon,
-        open_front_bin_opening_width,
-        open_front_bin_opening_height
-        ];
+    opening_cube = [thickness + 2 * epsilon, 0, 0] + opening_dimensions;
 
     difference() {
         union() {
-            base(open_front_bin_width, open_front_bin_height);
+            base(dimensions.y, dimensions.z);
 
             difference() {
                 cube(outer_cube);
                 translate(
                     [
-                        open_front_bin_thickness,
-                        open_front_bin_thickness,
+                        thickness,
+                        thickness,
                         -epsilon
                         ]
                     )
@@ -57,18 +59,18 @@ module open_front_bin() {
 
                 translate(
                     [
-                        open_front_bin_depth - open_front_bin_thickness - epsilon,
-                        open_front_bin_width / 2 - open_front_bin_opening_width / 2,
-                        open_front_bin_height - open_front_bin_opening_height + epsilon
+                        dimensions.x - thickness - epsilon,
+                        dimensions.y / 2 - opening_dimensions.y / 2,
+                        dimensions.z - opening_dimensions.z + epsilon
                         ]
                     )
-                    color("yellow")cube(opening_cube);
+                    cube(opening_cube);
             }
 
 
             translate(
                 [
-                    2*open_front_bin_thickness * sin(angle),
+                    2*thickness * sin(angle),
                     0 ,
                     0
                     ]
@@ -82,9 +84,10 @@ module open_front_bin() {
            [
                0,
                -epsilon,
-               -open_front_bin_thickness * sin(angle)
+               -thickness * sin(angle)
                ]
            ) {
+
            rotate([0, 1 * (90 - angle), 0])
                cube(angle_cube);
        }

@@ -1,3 +1,0 @@
-[submodule "scad/openscad-extra"]
-	path = scad/openscad-extra
-	url = https://github.com/chrisspen/openscad-extra.git

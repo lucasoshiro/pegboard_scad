@@ -24,25 +24,42 @@ module torus(r1, r2, angle=360) {
     rotate_extrude(angle=angle) translate([r2, 0, 0]) circle(r=r1);
 }
 
-module pin() {
+module pin(
+    length=pin_length,
+    tip_height=pin_tip_height,
+    diameter=pin_diameter,
+    clearance=pin_clearance
+    ) {
+
+    diameter_ = diameter - clearance;
+
     union() {
-        cylinder(h=pin_length - pin_tip_height, r=pin_diameter_/2);
-        translate([0, 0, pin_length - pin_tip_height])
-            scale([1, 1, (pin_tip_height * 2 / pin_diameter_)])
-                sphere(d=pin_diameter_);
+        cylinder(h=length - tip_height, r=diameter_/2);
+        translate([0, 0, length - tip_height])
+            scale([1, 1, (tip_height * 2 / diameter_)])
+                sphere(d=diameter_);
     }
 }
 
-module curvy_pin() {
+module curvy_pin(
+    length=pin_length,
+    tip_height=pin_tip_height,
+    diameter=pin_diameter,
+    clearance=pin_clearance,
+    pegboard_width=pegboard_width,
+    ) {
+
+    diameter_ = diameter - clearance;
+
     _pegboard_width = pegboard_width + pegboard_clearance;
 
-    torus_outer_radius = pin_length - _pegboard_width;
-    torus_r1 = pin_diameter_/2;
+    torus_outer_radius = length - _pegboard_width;
+    torus_r1 = diameter_/2;
     torus_r2 = torus_outer_radius - torus_r1;
 
     union() {
         translate([0, 0, 0])
-            cylinder(h=_pegboard_width, r=pin_diameter_/2);
+            cylinder(h=_pegboard_width, r=diameter_/2);
 
         translate([torus_outer_radius/2 - torus_r1,
                    0,
@@ -52,9 +69,9 @@ module curvy_pin() {
                     rotate([0, 0, 90])
                         torus(r1=torus_r1, r2=torus_r2, angle=90);
 
-        translate([torus_outer_radius-torus_r1 + 0*_pegboard_width/2, 0, pin_length - pin_diameter_/2])
-            scale([(pin_tip_height*2/pin_diameter_), 1, 1])
-                sphere(d=pin_diameter_);
+        translate([torus_outer_radius-torus_r1 + 0*_pegboard_width/2, 0, length - diameter_/2])
+            scale([(tip_height*2/diameter_), 1, 1])
+                sphere(d=diameter_);
     }
 }
 

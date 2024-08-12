@@ -24,6 +24,18 @@ module torus(r1, r2, angle=360) {
     rotate_extrude(angle=angle) translate([r2, 0, 0]) circle(r=r1);
 }
 
+module quarter_torus(r1, r2) {
+    /* Note: this could be solved by specifying the angle as 90, but as
+       Thingverse customizer has an older OpenSCAD version, we needed to do this
+       workaround.
+     */
+
+    intersection() {
+        torus(r1, r2);
+        translate([0, 0, -(r1 + r2)]) cube((r1+r2) * 2);
+    }
+}
+
 module pin(
     length=pin_length,
     tip_height=pin_tip_height,
@@ -67,9 +79,9 @@ module curvy_pin(
             rotate([90, 0, 0])
                 translate([torus_outer_radius/2, -torus_outer_radius/2, 0])
                     rotate([0, 0, 90])
-                        torus(r1=torus_r1, r2=torus_r2, angle=90);
+                        quarter_torus(r1=torus_r1, r2=torus_r2);
 
-        translate([torus_outer_radius-torus_r1 + 0*_pegboard_width/2, 0, length - diameter_/2])
+        translate([torus_outer_radius-torus_r1, 0, length - diameter_/2])
             scale([(tip_height*2/diameter_), 1, 1])
                 sphere(d=diameter_);
     }
@@ -108,5 +120,3 @@ module base(width, height) {
         fill_with_pin_pairs(width, height);
     }
 }
-
-

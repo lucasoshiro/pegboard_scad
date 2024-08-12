@@ -36,6 +36,11 @@ module quarter_torus(r1, r2) {
     }
 }
 
+module pin_tip(diameter, height) {
+    scale([1, 1, (height * 2 / diameter)])
+        sphere(d=diameter);
+}
+
 module pin(
     length=pin_length,
     tip_height=pin_tip_height,
@@ -47,13 +52,11 @@ module pin(
 
     union() {
         cylinder(h=length - tip_height, r=diameter_/2);
-        translate([0, 0, length - tip_height])
-            scale([1, 1, (tip_height * 2 / diameter_)])
-                sphere(d=diameter_);
+        translate([0, 0, length - tip_height]) pin_tip(diameter_, tip_height);
     }
 }
 
-module curvy_pin(
+module curvy_pin_old(
     length=pin_length,
     tip_height=pin_tip_height,
     diameter=pin_diameter,
@@ -86,6 +89,31 @@ module curvy_pin(
                 sphere(d=diameter_);
     }
 }
+
+module curvy_pin(
+    length=pin_length,
+    tip_height=pin_tip_height,
+    diameter=pin_diameter,
+    clearance=pin_clearance,
+    pegboard_width=pegboard_width,
+    ) {
+
+    diameter_ = diameter - clearance;
+    
+    cylinder(d=diameter_, h=pegboard_width);
+
+    torus_radius = length + tip_height - pegboard_width - diameter_;
+
+    translate([torus_radius, 0, pegboard_width]) {
+        rotate([90, 0, 180]) {
+            quarter_torus(r1=diameter_/2, r2=torus_radius);
+        }
+    }
+
+    translate([torus_radius, 0, torus_radius + pegboard_width])
+        rotate([0, 90, 180]) pin_tip(diameter_, tip_height);
+}
+
 
 module pin_pair(spacing=pin_spacing + pin_clearance) {
     translate([0, pin_diameter_/2, pin_diameter_/2])
@@ -120,3 +148,4 @@ module base(width, height) {
         fill_with_pin_pairs(width, height);
     }
 }
+

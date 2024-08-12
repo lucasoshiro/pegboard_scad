@@ -1,6 +1,7 @@
 /* pin dimentions */
 pin_diameter = 5;
-pin_spacing = 25;
+pin_spacing_horizontal = 25;
+pin_spacing_vertical = 25;
 pin_length = 10;
 pin_tip_height = 2;
 pin_clearance = 0.4;
@@ -115,7 +116,7 @@ module curvy_pin(
 }
 
 
-module pin_pair(spacing=pin_spacing + pin_clearance) {
+module pin_pair(spacing=pin_spacing_vertical + pin_clearance) {
     translate([0, pin_diameter_/2, pin_diameter_/2])
         rotate([0, -90, 0])
             union() {
@@ -125,18 +126,30 @@ module pin_pair(spacing=pin_spacing + pin_clearance) {
 }
 
 module fill_with_pin_pairs(width, height) {
-    spacing_between = pin_spacing - pin_diameter_;
+    spacing_between_horizontal = pin_spacing_horizontal - pin_diameter_;
+    spacing_between_vertical = pin_spacing_vertical - pin_diameter_;
 
-    pin_count_horizontal = floor((width + spacing_between) / (pin_diameter_ + spacing_between));
-    padding_horizontal = (width - (pin_count_horizontal * pin_diameter_ + (pin_count_horizontal - 1) * spacing_between)) / 2;
+    pin_count_horizontal = floor(
+        (width + spacing_between_horizontal) / (pin_diameter_ + spacing_between_horizontal)
+        );
 
-    pin_count_vertical = floor((height + spacing_between) / (pin_diameter_ + spacing_between));
-    spacing_vertical = (pin_count_vertical - 1) * pin_spacing;
+    padding_horizontal = (
+        width - (pin_count_horizontal * pin_diameter_ +
+                 (pin_count_horizontal - 1) * spacing_between_horizontal)
+        ) / 2;
+
+    pin_count_vertical = floor(
+        (height + spacing_between_vertical) / (pin_diameter_ + spacing_between_vertical)
+        );
+
+    spacing_vertical = (pin_count_vertical - 1) * pin_spacing_vertical;
     padding_vertical = (height - spacing_vertical - pin_diameter_) / 2;
+
+    echo(pin_count_vertical);
 
     translate([0, padding_horizontal, padding_vertical]) {
         for (i = [1:pin_count_horizontal]) {
-            translate([0, (i-1) * pin_spacing + pin_clearance, 0])
+            translate([0, (i-1) * pin_spacing_horizontal + pin_clearance, 0])
                 pin_pair(spacing_vertical + pin_clearance);
         }
     }

@@ -2,7 +2,8 @@ include <pegboard.scad>
 
 padding = 4;
 
-width = pin_diameter + pin_spacing + padding;
+height = pin_diameter + pin_spacing_vertical + padding;
+width = pin_diameter + pin_spacing_horizontal + padding;
 
 $fn = 30;
 
@@ -12,8 +13,8 @@ module support() {
             linear_extrude(height=base_width) {
                 polygon(points=[
                             [0, 0],
-                            [width * sin(angle), 0],
-                            [width * sin(angle), width * cos(angle)]
+                            [height * sin(angle), 0],
+                            [height * sin(angle), height * cos(angle)]
                             ]);
             }
         }
@@ -24,7 +25,7 @@ module sample() {
     intersection() {
         union() {
             rotate([0, angle, 0]) {
-                base(width, width);
+                base(width, height);
             }
             translate([base_width * cos(angle), 0, -base_width * sin(angle)]) {
                 support();

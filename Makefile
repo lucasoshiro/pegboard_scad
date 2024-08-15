@@ -18,5 +18,7 @@ $(STL_DIR)/%.stl: ${SCAD_DIR}/pegboard.scad ${SCAD_DIR}/%.scad
 %: $(STL_DIR)/%.stl
 	echo -n
 
-thingiverse:
-	ruby rb/prepare_for_thingiverse.rb
+thingiverse: thingiverse/sample.scad
+
+thingiverse/sample.scad: thingiverse/pegboard.scad
+	ruby rb/preprocess_scad.rb < $< > $@

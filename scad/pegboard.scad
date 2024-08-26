@@ -7,7 +7,7 @@ pin_tip_height = 2;
 pin_clearance = 0.4;
 
 /* pegboard width */
-pegboard_width = 3;
+pegboard_thickness = 3;
 pegboard_clearance = 0.6;
 
 /* base width */
@@ -62,24 +62,24 @@ module curvy_pin_old(
     tip_height=pin_tip_height,
     diameter=pin_diameter,
     clearance=pin_clearance,
-    pegboard_width=pegboard_width,
+    pegboard_thickness=pegboard_thickness,
     ) {
 
     diameter_ = diameter - clearance;
 
-    _pegboard_width = pegboard_width + pegboard_clearance;
+    _pegboard_thickness = pegboard_thickness + pegboard_clearance;
 
-    torus_outer_radius = length - _pegboard_width;
+    torus_outer_radius = length - _pegboard_thickness;
     torus_r1 = diameter_/2;
     torus_r2 = torus_outer_radius - torus_r1;
 
     union() {
         translate([0, 0, 0])
-            cylinder(h=_pegboard_width, r=diameter_/2);
+            cylinder(h=_pegboard_thickness, r=diameter_/2);
 
         translate([torus_outer_radius/2 - torus_r1,
                    0,
-                   torus_outer_radius/2 + _pegboard_width])
+                   torus_outer_radius/2 + _pegboard_thickness])
             rotate([90, 0, 0])
                 translate([torus_outer_radius/2, -torus_outer_radius/2, 0])
                     rotate([0, 0, 90])
@@ -96,22 +96,22 @@ module curvy_pin(
     tip_height=pin_tip_height,
     diameter=pin_diameter,
     clearance=pin_clearance,
-    pegboard_width=pegboard_width,
+    pegboard_thickness=pegboard_thickness,
     ) {
 
     diameter_ = diameter - clearance;
     
-    cylinder(d=diameter_, h=pegboard_width);
+    cylinder(d=diameter_, h=pegboard_thickness);
 
-    torus_radius = length + tip_height - pegboard_width - diameter_;
+    torus_radius = length + tip_height - pegboard_thickness - diameter_;
 
-    translate([torus_radius, 0, pegboard_width]) {
+    translate([torus_radius, 0, pegboard_thickness]) {
         rotate([90, 0, 180]) {
             quarter_torus(r1=diameter_/2, r2=torus_radius);
         }
     }
 
-    translate([torus_radius, 0, torus_radius + pegboard_width])
+    translate([torus_radius, 0, torus_radius + pegboard_thickness])
         rotate([0, 90, 180]) pin_tip(diameter_, tip_height);
 }
 

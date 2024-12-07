@@ -11,7 +11,7 @@ pegboard_thickness = 3;
 pegboard_clearance = 0.6;
 
 /* base width */
-base_width = 3;
+base_thickness = 3;
 
 /* angle */
 angle = 30;
@@ -157,7 +157,7 @@ module fill_with_pin_pairs(width, height) {
 
 module base(width, height) {
     union(){
-        cube([base_width, width, height]);
+        cube([base_thickness, width, height]);
         fill_with_pin_pairs(width, height);
     }
 }

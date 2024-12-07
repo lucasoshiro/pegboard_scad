@@ -9,9 +9,9 @@ $fn = 30;
 
 module sample(padding=sample_padding, angle=angle) {
     module sample_support() {
-        translate([0, base_width, 0]) {
+        translate([0, base_thickness, 0]) {
             rotate([90, 0, 0]) {
-                linear_extrude(height=base_width) {
+                linear_extrude(height=base_thickness) {
                     polygon(points=[
                                 [0, 0],
                                 [height * sin(angle), 0],
@@ -27,9 +27,9 @@ module sample(padding=sample_padding, angle=angle) {
             rotate([0, angle, 0]) {
                 base(width, height);
             }
-            translate([base_width * cos(angle), 0, -base_width * sin(angle)]) {
+            translate([base_thickness * cos(angle), 0, -base_thickness * sin(angle)]) {
                 sample_support();
-                translate([0, width - base_width, 0]) sample_support();
+                translate([0, width - base_thickness, 0]) sample_support();
             }
         }
 

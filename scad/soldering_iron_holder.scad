@@ -33,8 +33,8 @@ module soldering_iron(
             }
         }
 
-        translate(-[base_width + hook_width, 0, 0] / 2) {
-            cube([base_width + hook_width, hook_width, height] * 2);
+        translate(-[base_thickness + hook_width, 0, 0] / 2) {
+            cube([base_thickness + hook_width, hook_width, height] * 2);
         }
     }
 }

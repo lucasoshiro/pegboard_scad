@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def replace_contents(pegboard_file_content, file_content)
-  return pegboard_file_content + file_content.gsub('use <pegboard.scad>', '')
+  return pegboard_file_content + file_content.gsub('include <pegboard.scad>', '')
 end
 
 puts 'Generating .scad files for thingiverse'
